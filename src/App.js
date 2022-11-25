@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useCallback, useMemo, useState } from 'react';
+
+const INIT_COLOR = 'red';
 
 function App() {
+  const [backgroundColor, setBackgroundColor] = useState(INIT_COLOR);
+
+  const newBtnColor = useMemo(
+    () => (backgroundColor === INIT_COLOR ? 'blue' : 'red'),
+    [backgroundColor]
+  );
+
+  const handleBtnClick = useCallback(
+    () => setBackgroundColor(newBtnColor),
+    [setBackgroundColor, newBtnColor]
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button style={{ backgroundColor }} onClick={handleBtnClick}>
+        Change to {newBtnColor}
+      </button>
     </div>
   );
 }
