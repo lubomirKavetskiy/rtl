@@ -1,6 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
 //import { logRoles } from '@testing-library/react';
 //https://github.com/testing-library/jest-dom
+
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 
 test('button has a correct init color', () => {
