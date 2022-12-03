@@ -1,14 +1,26 @@
 import { useCallback, useMemo, useState } from 'react';
 
-const INIT_COLOR = 'red';
+export const replaceCamelWithSpace = (colorName) =>
+  colorName.replace(/\B([A-Z]\B)/g, ' $1');
+
+export const colors = Object.freeze({
+  init: 'MediumVioletRed',
+  changed: 'MidnightBlue',
+  disabled: 'gray',
+});
 
 function App() {
-  const [backgroundColor, setBackgroundColor] = useState(INIT_COLOR);
+  const [backgroundColor, setBackgroundColor] = useState(colors.init);
   const [isChecked, setIsChecked] = useState(false);
 
   const newBtnColor = useMemo(
-    () => (backgroundColor === INIT_COLOR ? 'blue' : 'red'),
+    () => (backgroundColor === colors.init ? colors.changed : colors.init),
     [backgroundColor]
+  );
+
+  const label = useMemo(
+    () => `Change to ${replaceCamelWithSpace(newBtnColor)}`,
+    [newBtnColor]
   );
 
   const handleBtnClick = useCallback(() => {
@@ -25,18 +37,22 @@ function App() {
   return (
     <div className="App">
       <button
-        style={{ backgroundColor }}
+        style={{
+          backgroundColor: isChecked ? colors.disabled : backgroundColor,
+        }}
         onClick={handleBtnClick}
         disabled={isChecked}
       >
-        Change to {newBtnColor}
+        {label}
       </button>
 
       <input
+        id="disable-btn-checkbox-id"
         type="checkbox"
         defaultChecked={isChecked}
         onChange={handleCheckboxClick}
       />
+      <label htmlFor="disable-btn-checkbox-id">Disable btn</label>
     </div>
   );
 }
